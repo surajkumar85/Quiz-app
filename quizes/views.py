@@ -20,9 +20,7 @@ def quiz_data_view(request,pk):
     questions = []
     for q in quiz.get_questions():
         answers = []
-        for a in q.get_answers():
-            answers.append(a.text)
-        questions.append({str(q):answers})
+        
     return JsonResponse({
         'data' : questions,
         'time': quiz.time,
@@ -62,8 +60,7 @@ def save_quiz_view(request,pk):
             else:
                 results.append({str(q):'not answered'})
             
-        score_ = score * multiplier
-        Result.objects.create(quiz=quiz,user=user,score=score_)
+        
 
         if score_ >= quiz.required_score_to_pass:
             return JsonResponse({'passed':True,'score':score_,'results':results})
